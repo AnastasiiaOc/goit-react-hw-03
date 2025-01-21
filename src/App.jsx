@@ -1,56 +1,110 @@
 import { useState, useEffect } from 'react'
-// import React from 'react';
-import './App.css'
 import ContactList from './components/ContactList/ContactList';
-// import ContactForm from './components/ContactForm/ContactForm';
-// import SearchBox from './components/SearchBox/SearchBox';
+import ContactForm from './components/ContactForm/ContactForm';
+import SearchBox from './components/SearchBox/SearchBox';
 import contactsJson from './components/contacts.json';
-import Contact from './components/Contact/Contact';
+import { nanoid } from "nanoid";
 
 
+// const getInitialValues = () => {
+//   const savedValues = window.localStorage.getItem("my-contacts");
+//   return savedValues !== null ? JSON.parse(savedValues) : contactsJson;
+ 
+// };
 
-function App() {
-  // const [contacts, setContacts] = useState(JSON.parse(localStorage.getItem("contacts")) )
-  const [contacts, setContacts] = useState(() => {
-    const localData = localStorage.getItem("contacts");
-    return localData ? JSON.parse(localData) : contactsJson;
-  }); 
+// export default function App() {
+//   const [contacts, setContacts] = useState(getInitialValues);
+//   const [filter, setFilter] = useState("");
+ 
+//   const getFilteredContacts = () => {
+//     const normalizedFilter = filter.toLowerCase();
+//     return contacts.filter((contact) =>
+//       contact.name.toLowerCase().includes(normalizedFilter)
+//     );
+//   };
 
-  // useEffect(() => {
-  //   localStorage.setItem("contacts", JSON.stringify(contacts));
-  // }, [contacts]);
+//   useEffect(() => {
+//     window.localStorage.setItem("my-contacts", JSON.stringify(contacts));
+//   }, [contacts]);
+ 
+//   const addContact = ({ name, number }) => {
+//     const newContact = {
+//       id: nanoid(),
+//       name,
+//       number,
+//     };
+//     setContacts((prevContacts) => [newContact, ...prevContacts]);
+//   }
 
 
-  // const addContact = (contact) => {
-  //   setContacts((prevContacts) => {
-  //     return [...prevContacts, contact];
-  //   });
-  // };
-  // const updateFeedback = () => {
-  //   setFeedback({ ...feedback, [feedbackType]: feedback[feedbackType] + 1 });
+//   return (
+//     <div>
+//       <h1>Phonebook</h1>
+//       <ContactForm />
+//       <SearchBox />
+//       <ContactList contacts={getFilteredContacts()} />
+//     </div>
+    
+//   )
+// }
+const getInitialValues = () => {
+  const savedValues = window.localStorage.getItem("my-contacts");
+  return savedValues !== null ? JSON.parse(savedValues) : contactsJson;
+};
 
-  // const deleteContacts = (id) => {
-  //   setContacts((prevContacts) => {
-  //     return prevContacts.filter((contact) => contact.id !== id)
-  //   });
-  // }
+const App = () => {
+  const [contacts, setContacts] = useState(getInitialValues);
+  const [filter, setFilter] = useState("");
 
-  // const filteredContacts = contacts.filter((contact) => contact.name.toLowerCase().includes(filter.toLowerCase()));
+  const addContact = ({ name, number }) => {
+    const newContact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+
+    setContacts((prevContacts) => [newContact, ...prevContacts]);
+  };
+  useEffect(() => {
+    window.localStorage.setItem("my-contacts", JSON.stringify(contacts));
+  }, [contacts]);
+
+  const deleteContact = (id) => {
+    setContacts((prevContacts) =>
+      prevContacts.filter((contact) => contact.id !== id)
+    );
+  };
+
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
+  const getFilteredContacts = () => {
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
+
+ 
 
   return (
     <div>
-      <h1>Phonebook</h1>
-      <ContactList contacts={contacts} />
-    </div>)
-}
+      <h1 >
+        Phonebook 
+      </h1>
+      <ContactForm onSubmit={addContact} />
+      <SearchBox value={filter} onChange={handleFilterChange} />
+      <ContactList
+        contacts={getFilteredContacts()}
+        onDeleteContact={deleteContact}
+      />
+    </div>
+  );
+};
+
 export default App;
 
-// return (
-//   <div>
-//     <h1>Phonebook</h1>
-//     <ContactForm onSubmit={addContact} />
-//     <SearchBox value={filter} setFilter={setFilter} />
-//     <ContactList contacts={filteredContacts} deleteContacts={deleteContacts} />
-//   </div>
 
-// )
+
+

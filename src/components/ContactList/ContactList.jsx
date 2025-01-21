@@ -1,26 +1,21 @@
+
 import Contact from "../Contact/Contact";
+import css from "./ContactList.module.css";
 
-
-
-const ContactList = ({ contacts}) => {
-    return (
-        <ul>
-            {contacts.map(({ id, name, number }) => {
-                return (
-                    <Contact
-                        key={id}
-                        id={id}
-                        name={name}
-                        number={number}
-                    />
-                );
-            })}
-        </ul>
-
-    );
-};
-
-
-
+const ContactList = ({ contacts, onDeleteContact }) => (
+    <ul className={css.contactListCard}>
+        {contacts.map(({ id, name, number }) => (
+            <Contact 
+                key={id}
+                name={name}
+                number={number}
+                onDelete={() => onDeleteContact(id)}
+            />
+        ))}
+    </ul>
+);
 
 export default ContactList;
+
+
+

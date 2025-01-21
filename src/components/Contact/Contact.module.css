@@ -1,0 +1,13 @@
+.contact{
+    border-radius: 5px;
+    border: 1px solid black;
+        box-sizing: border-box;
+        width: 400px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+}
+.cardText{
+    font-size:18px;}
