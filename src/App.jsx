@@ -6,16 +6,103 @@ import contactsJson from './components/contacts.json';
 import { nanoid } from "nanoid";
 
 
+
+
+
+function App (){
+
+  const [contacts, setContacts] = useState(() => {
+    const localData = localStorage.getItem("contacts");
+    return localData ? JSON.parse(localData) : contactsJson;
+  }); 
+
+  const [filter, setFilter] = useState('');
+
+  // const addContact = (contact) => {
+  //   setContacts((prevContacts) => {
+  //     return [...prevContacts, contact];
+  //   });
+  // };
+
+  const addContact = ({ name, number }) => {
+    console.log(name, number)
+    const newContact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+
+    setContacts((prevContacts) => [ ...prevContacts, newContact]);
+  };
+  
+  const deleteContact = (id) => {
+    console.log("hello")
+    setContacts((prevContacts) => {
+      return prevContacts.filter((contact) => contact.id !== id)
+    });
+  }
+
+const filteredContacts = contacts.filter((contact) => contact.name.toLowerCase().includes(filter.toLowerCase()));
+
+const handleFilterChange = (event) => {
+  setFilter(event.target.value);
+};
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+}, [contacts]);
+
+return (
+<div>
+<h1>Phonebook</h1>
+<ContactForm onSubmit={addContact} />
+{/* <SearchBox/> */}
+{/* <SearchBox value={filter} onChange={handleFilterChange} /> */}
+<SearchBox onChange={handleFilterChange} />
+{/* <SearchBox value={filter} setFilter={setFilter} /> */}
+<ContactList contacts={filteredContacts}   onDeleteContact={deleteContact} />
+{/* <ContactForm onSubmit={addContact} /> */}
+{/* <SearchBox/> */}
+{/* <ContactList /> */}
+</div>
+
+)
+}
+
+export default App;
+
+
+
+// ========================boy's======================================
 // const getInitialValues = () => {
 //   const savedValues = window.localStorage.getItem("my-contacts");
 //   return savedValues !== null ? JSON.parse(savedValues) : contactsJson;
- 
 // };
 
-// export default function App() {
+// const App = () => {
 //   const [contacts, setContacts] = useState(getInitialValues);
 //   const [filter, setFilter] = useState("");
- 
+
+//   const addContact = ({ name, number }) => {
+//     const newContact = {
+//       id: nanoid(),
+//       name,
+//       number,
+//     };
+
+//     setContacts((prevContacts) => [newContact, ...prevContacts]);
+//   };
+
+//   const deleteContact = (id) => {
+//     setContacts((prevContacts) =>
+//       prevContacts.filter((contact) => contact.id !== id)
+//     );
+//   };
+
+//   const handleFilterChange = (event) => {
+//     setFilter(event.target.value);
+//   };
+// // ================here a problem?++++++++++++++++++++++
 //   const getFilteredContacts = () => {
 //     const normalizedFilter = filter.toLowerCase();
 //     return contacts.filter((contact) =>
@@ -26,85 +113,20 @@ import { nanoid } from "nanoid";
 //   useEffect(() => {
 //     window.localStorage.setItem("my-contacts", JSON.stringify(contacts));
 //   }, [contacts]);
- 
-//   const addContact = ({ name, number }) => {
-//     const newContact = {
-//       id: nanoid(),
-//       name,
-//       number,
-//     };
-//     setContacts((prevContacts) => [newContact, ...prevContacts]);
-//   }
-
 
 //   return (
 //     <div>
-//       <h1>Phonebook</h1>
-//       <ContactForm />
-//       <SearchBox />
-//       <ContactList contacts={getFilteredContacts()} />
+//       <h1>
+//         Phonebook 
+//       </h1>
+//       <ContactForm onSubmit={addContact} />
+//       <SearchBox value={filter} onChange={handleFilterChange} />
+//       <ContactList
+//         contacts={getFilteredContacts()}
+//         onDeleteContact={deleteContact}
+//       />
 //     </div>
-    
-//   )
-// }
-const getInitialValues = () => {
-  const savedValues = window.localStorage.getItem("my-contacts");
-  return savedValues !== null ? JSON.parse(savedValues) : contactsJson;
-};
+//   );
+// };
 
-const App = () => {
-  const [contacts, setContacts] = useState(getInitialValues);
-  const [filter, setFilter] = useState("");
-
-  const addContact = ({ name, number }) => {
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
-    setContacts((prevContacts) => [newContact, ...prevContacts]);
-  };
-  useEffect(() => {
-    window.localStorage.setItem("my-contacts", JSON.stringify(contacts));
-  }, [contacts]);
-
-  const deleteContact = (id) => {
-    setContacts((prevContacts) =>
-      prevContacts.filter((contact) => contact.id !== id)
-    );
-  };
-
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
-  };
-
-  const getFilteredContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
- 
-
-  return (
-    <div>
-      <h1 >
-        Phonebook 
-      </h1>
-      <ContactForm onSubmit={addContact} />
-      <SearchBox value={filter} onChange={handleFilterChange} />
-      <ContactList
-        contacts={getFilteredContacts()}
-        onDeleteContact={deleteContact}
-      />
-    </div>
-  );
-};
-
-export default App;
-
-
-
-
+// export default App;
