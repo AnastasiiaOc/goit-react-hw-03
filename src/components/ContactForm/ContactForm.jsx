@@ -4,13 +4,24 @@ import * as Yup from "yup";
 import { ErrorMessage } from "formik";
 import css from "../ContactForm/contactForm.module.css";
 
-const ValidationSchema = Yup.object().shape({
-    username: Yup.string().min(2, "Too short").max(50, "Too long").required("Required"),
-     number: Yup.string().min(2, "Too short").max(50, "Too long").required("Required")
-})
+import { nanoid } from "nanoid";
 
 
-const ContactForm = () => {
+
+
+// const ContactForm = () => {
+    const ContactForm = ({ onSubmit }) => {
+
+    const phoneRegExp = /^[0-9]{3}-[0-9]{2}-[0-9]{2}$/;
+
+    const ValidationSchema = Yup.object().shape({
+        username: Yup.string().min(2, "Too short").max(50, "Too long").required("Required"),
+         number: Yup.string().min(2, "Too short").max(50, "Too long").matches(
+            phoneRegExp,
+            "Номер телефону має співпадати з форматом 'xxx-xx-xx'"
+          ).required("Required")
+    })
+    // ++++++++++++++++++++++NOT MINE ++++++++++++++++++++++++++++++++++++++
 // const ContactForm = ({ onAddContact }) => {
     // const handleSubmit = (values, actions) => {
     //   const contactObject = {
@@ -24,12 +35,27 @@ const ContactForm = () => {
     //   actions.resetForm();
     //   actions.setStatus({});
     // };
+    // +++++++++++++++++++++my today++++++++++++++++++++++++++++++++++++++++
 // export default function contactForm() {
 
+
+    // const handleSubmit = (values, actions) => {
+    //     addContact({values});
+    //     console.log(values)
+    //     actions.resetForm();
+    // };
+
+    // ========================================================
     const handleSubmit = (values, actions) => {
         console.log(values);
+        const newContact = {
+          id: nanoid(),
+          name: values.username,
+          number: values.number,
+        };
+        onSubmit(newContact);
         actions.resetForm();
-    };
+      };
     const initialValues = {
         username: "",
         number: "",
@@ -43,7 +69,7 @@ const ContactForm = () => {
             <label className={css.formLabel} htmlFor="name">Name</label >
             <Field className={css.formField} type="text" name="username"></Field>
             <ErrorMessage className={css.errorMessage} name="username" component="span"/>
-            <label htmlFor="" className={css.formLabel} >Number</label>
+            <label htmlFor="number" className={css.formLabel} >Number</label>
 
             <Field className={css.formField} type="text" name="number"></Field>
             <ErrorMessage className={css.errorMessage} name="number" component="span" />
@@ -54,50 +80,8 @@ const ContactForm = () => {
     </Formik >)
 }
 
+export default ContactForm;
+
 //    ======================================boys=====================================
 
 
-//    import { Formik, Form, Field, ErrorMessage } from "formik";
-// import * as Yup from "yup";
-// // import styles from "./ContactForm.module.css";
-
-// const validationSchema = Yup.object().shape({
-//   name: Yup.string()
-//     .min(3, "Must be at least 3 characters")
-//     .max(50, "Must be 50 characters or less")
-//     .required("Required"),
-//   number: Yup.string().min(7, "Must be at least 7 digits").required("Required"),
-// });
-
-// const ContactForm = ({ onSubmit }) => (
-//   <Formik
-//     initialValues={{ name: "", number: "" }}
-//     validationSchema={validationSchema}
-//     onSubmit={(values, { resetForm }) => {
-//       onSubmit(values);
-//       resetForm();
-//     }}
-//   >
-//     {() => (
-//       <Form >
-//         <label  htmlFor="name">
-//           Name
-//         </label>
-//         <Field  name="name" type="text" />
-//         <ErrorMessage  name="name" component="div" />
-
-//         <label  htmlFor="number">
-//           Number
-//         </label>
-//         <Field  name="number" type="text" />
-//         <ErrorMessage  name="number" component="div" />
-
-//         <button  type="submit">
-//           Add contact
-//         </button>
-//       </Form>
-//     )}
-//   </Formik>
-// );
-
-export default ContactForm;
