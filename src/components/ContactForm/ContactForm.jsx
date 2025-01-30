@@ -6,9 +6,6 @@ import css from "../ContactForm/contactForm.module.css";
 
 import { nanoid } from "nanoid";
 
-
-
-
 // const ContactForm = () => {
     const ContactForm = ({ onSubmit }) => {
 
@@ -60,6 +57,7 @@ import { nanoid } from "nanoid";
         username: "",
         number: "",
     }
+    // (THE KEY in initial values (username, number) has to be the same as the name of the FIELD)
 
     return (<Formik
         initialValues={initialValues}
@@ -82,6 +80,6 @@ import { nanoid } from "nanoid";
 
 export default ContactForm;
 
-//    ======================================boys=====================================
+
 
 
