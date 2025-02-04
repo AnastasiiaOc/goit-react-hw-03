@@ -18,31 +18,8 @@ import { nanoid } from "nanoid";
             "Номер телефону має співпадати з форматом 'xxx-xx-xx'"
           ).required("Required")
     })
-    // ++++++++++++++++++++++NOT MINE ++++++++++++++++++++++++++++++++++++++
-// const ContactForm = ({ onAddContact }) => {
-    // const handleSubmit = (values, actions) => {
-    //   const contactObject = {
-    //     name: values.contactName,
-    //     number: values.contactNumber,
-    //   };
-  
-    // //   onAddContact(contactObject);
-  
-    //   console.log(values);
-    //   actions.resetForm();
-    //   actions.setStatus({});
-    // };
-    // +++++++++++++++++++++my today++++++++++++++++++++++++++++++++++++++++
-// export default function contactForm() {
 
 
-    // const handleSubmit = (values, actions) => {
-    //     addContact({values});
-    //     console.log(values)
-    //     actions.resetForm();
-    // };
-
-    // ========================================================
     const handleSubmit = (values, actions) => {
         console.log(values);
         const newContact = {
