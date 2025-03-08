@@ -11,3 +11,13 @@
 }
 .cardText{
     font-size:18px;}
+
+.icon{
+   
+    margin-right: 7px;
+}
+
+.contactBtn:focus,
+.contactBtn:hover{
+    background-color: rgb(122, 188, 221);
+}

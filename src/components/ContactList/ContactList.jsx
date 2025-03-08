@@ -3,7 +3,7 @@ import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
 
 const ContactList = ({ contacts, onDeleteContact }) => {
-   
+      // contacts comes from json
     return (<ul className={css.contactListCard}>
         {contacts.map((contact) => {
             return ( 
@@ -22,19 +22,3 @@ const ContactList = ({ contacts, onDeleteContact }) => {
 export default ContactList;
 
 
-// export default function ContactList ({contacts, onDeleteContact}){
-//     // contacts comes from json
-//     return(
-//         <ul className={css.contactListCard}>
-//         {contacts.map((contact) => {
-//             return( <li key={contact.id}>
-//                 <Contact 
-//                 id ={contact.id}
-//                 name ={contact.name}
-//                 number ={contact.number}
-//                 onDeleteContact={onDeleteContact}/>
-//             </li>);
-//         })}
-
-//         </ul>
-//     );}
