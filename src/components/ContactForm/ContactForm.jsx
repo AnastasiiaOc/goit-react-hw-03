@@ -1,7 +1,8 @@
 
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
-import css from "../ContactForm/contactForm.module.css";
+import css from "../ContactForm/ContactForm.module.css";
+// import css from "../ContactForm/ContactForm"
 import { nanoid } from "nanoid";
 
 const phoneRegExp = /^[0-9]{3}-[0-9]{2}-[0-9]{2}$/;
